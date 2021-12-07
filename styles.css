@@ -17,6 +17,21 @@ body {
   position: relative;
 }
 
+#start {
+  font-size: 2em;
+  font-weight: bold;
+  padding: 10px 35px;
+  margin-bottom: 25px;
+  background-color: #fff;
+  color: #000;
+  border-radius: 12px;
+}
+
+#start:hover {
+  color: rgb(88, 88, 88);
+  /* box-shadow: 5px 5px 5px #fff; */
+}
+
 .btn {
   margin: 25px;
   display: inline-block;
