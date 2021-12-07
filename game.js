@@ -7,36 +7,34 @@ let randomChosenColor;
 let userChosenColor;
 let started = false;
 
+// ====================
+// Set Helper Functions
+// ====================
+
 // Set function that play sound when execute
 const playSound = (name) => {
     let audio = new Audio(`./sounds/${name}.mp3`);
     audio.play();
 };
 
+// Set function that add class 'pressed' temporarily when clicked button
+const animatePress = (currentColor) => {
+    $(`#${currentColor}`).addClass('pressed');
+
+    setTimeout(() => {
+        $(`#${currentColor}`).removeClass('pressed')
+    }, 100);
+};
+
+// ====================
+// Set Main Functions
+// ====================
+
 // Set function that reset game when execute
 const startOver = () => {
     level = 0;
     gamePattern = [];
 };
-
-// // Add eventlistening to click on start/restart button
-$('#start').click(() => {
-
-    // Run if started equal to false
-    if (!started) {
-        startOver();
-        $('#level-title').text(`Level ${level}`);
-        $('#start').text('Restart Game');
-        nextSequence();
-        started = true;
-    } 
-    // Restart if need
-    else { 
-        startOver();
-        $('#level-title').text(`Level ${level}`);
-        nextSequence();
-    }
-});
 
 // Set function that reset game when execute
 const nextSequence = () => {
@@ -63,27 +61,6 @@ const nextSequence = () => {
     $('#level-title').text(`Level ${level}`);
 };
 
-// Set function that add class 'pressed' temporarily when clicked button
-const animatePress = (currentColor) => {
-    $(`#${currentColor}`).addClass('pressed');
-
-    setTimeout(() => {
-        $(`#${currentColor}`).removeClass('pressed')
-    }, 100);
-};
-
-// Add eventlistening to click on color button
-$('.btn').click(function() {
-    userChosenColor = $(this).attr('id');
-    
-    userClickedPattern.push(userChosenColor);
-
-    animatePress(userChosenColor);
-    playSound(`${userChosenColor}`);
-    
-    checkAnswer(userClickedPattern.length-1);
-});
-
 // Set function that check answer
 const checkAnswer = (currentLevel) => {
     if (gamePattern[currentLevel] === userClickedPattern[currentLevel]) {
@@ -109,6 +86,41 @@ const checkAnswer = (currentLevel) => {
         started = false;
     }
 };
+
+// ============
+// Begin Events
+// ============
+
+// // Add eventlistening to click on start/restart button
+$('#start').click(() => {
+
+    // Run if started equal to false
+    if (!started) {
+        startOver();
+        $('#level-title').text(`Level ${level}`);
+        $('#start').text('Restart Game');
+        nextSequence();
+        started = true;
+    } 
+    // Restart if need
+    else { 
+        startOver();
+        $('#level-title').text(`Level ${level}`);
+        nextSequence();
+    }
+});
+
+// Add eventlistening to click on color button
+$('.btn').click(function() {
+    userChosenColor = $(this).attr('id');
+    
+    userClickedPattern.push(userChosenColor);
+
+    animatePress(userChosenColor);
+    playSound(`${userChosenColor}`);
+    
+    checkAnswer(userClickedPattern.length-1);
+});
 
 // Show some hint
 $('img').click(() => {
