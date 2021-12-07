@@ -17,14 +17,6 @@ body {
   position: relative;
 }
 
-#popcat {
-  position: absolute;
-  top: 270px;
-  left: 85px;
-  width: 200px;
-  height: 200px;
-}
-
 .btn {
   margin: 25px;
   display: inline-block;
@@ -58,4 +50,17 @@ body {
 .game-over {
   background-color: red;
   opacity: 0.8;
+}
+
+.popcat {
+  display: none;
+  position: absolute;
+  top: 270px;
+  left: 85px;
+  width: 200px;
+  height: 200px;
+}
+
+.pop {
+  display: block !important;
 }

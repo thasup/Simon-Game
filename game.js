@@ -26,6 +26,26 @@ const animatePress = (currentColor) => {
     }, 100);
 };
 
+// Set funny function that change popcat image when button click
+$(window).on('load', () => {
+    $('.btn').mousedown(() => {
+        $('.popcat').attr('src', './images/Popcat_Wow.png');
+    });
+
+    $('.btn').mouseup(() => {
+        $('.popcat').attr('src', './images/Popcat.png');
+    });
+});
+
+// Set funny function that change popcat image when game over
+const popcatOver = () => {
+    if (!started) {
+        $('.popcat').attr('src', './images/Popcat_Fire.png');
+    } else {
+        $('.popcat').attr('src', './images/Popcat.png');
+    }
+};
+
 // ====================
 // Set Main Functions
 // ====================
@@ -81,9 +101,11 @@ const checkAnswer = (currentLevel) => {
             $(`body`).removeClass('game-over')
         }, 200);
 
-        // Show game over
+        // Game over
         $('#level-title').text(`Game Over`);
+        playSound('laugh');
         started = false;
+        popcatOver();
     }
 };
 
@@ -101,6 +123,7 @@ $('#start').click(() => {
         $('#start').text('Restart Game');
         nextSequence();
         started = true;
+        popcatOver();
     } 
     // Restart if need
     else { 
@@ -112,6 +135,9 @@ $('#start').click(() => {
 
 // Add eventlistening to click on color button
 $('.btn').click(function() {
+
+    // Run only when start button pressed
+    if (started) {
     userChosenColor = $(this).attr('id');
     
     userClickedPattern.push(userChosenColor);
@@ -120,10 +146,11 @@ $('.btn').click(function() {
     playSound(`${userChosenColor}`);
     
     checkAnswer(userClickedPattern.length-1);
+    }
 });
 
 // Show some hint
 $('img').click(() => {
     console.log(`gamePattern : ${gamePattern}`);
     console.log(`userClickedPattern : ${userClickedPattern}`);
-})
+});
