@@ -1,9 +1,11 @@
+// Declared global variables
 const buttonColors = ['red', 'blue', 'green', 'yellow'];
 let gamePattern = [];
 let userClickedPattern = [];
 let level = 0;
 let randomChosenColor;
 let userChosenColor;
+let started = false;
 
 // Set function that play sound when execute
 const playSound = (name) => {
@@ -11,11 +13,32 @@ const playSound = (name) => {
     audio.play();
 };
 
+// Set function that reset game when execute
+const startOver = () => {
+    level = 0;
+    gamePattern = [];
+};
+
+// // Add eventlistening to click on start/restart button
 $('#start').click(() => {
-    $('#level-title').text(`Level 0`);
-    nextSequence();
+
+    // Run if started equal to false
+    if (!started) {
+        startOver();
+        $('#level-title').text(`Level ${level}`);
+        $('#start').text('Restart Game');
+        nextSequence();
+        started = true;
+    } 
+    // Restart if need
+    else { 
+        startOver();
+        $('#level-title').text(`Level ${level}`);
+        nextSequence();
+    }
 });
 
+// Set function that reset game when execute
 const nextSequence = () => {
     userClickedPattern = [];
     // Set function that random number
@@ -23,8 +46,8 @@ const nextSequence = () => {
         return Math.floor(Math.random() * (max - min) + min);
     };
 
+    // Random number between 3 to 0
     let randomNumber = generateRandomNumber(3, 0);
-    console.log(randomNumber);
 
     randomChosenColor = buttonColors[randomNumber];
     gamePattern.push(randomChosenColor);
@@ -40,6 +63,7 @@ const nextSequence = () => {
     $('#level-title').text(`Level ${level}`);
 };
 
+// Set function that add class 'pressed' temporarily when clicked button
 const animatePress = (currentColor) => {
     $(`#${currentColor}`).addClass('pressed');
 
@@ -48,42 +72,46 @@ const animatePress = (currentColor) => {
     }, 100);
 };
 
-$('#up-level').click(nextSequence);
-
+// Add eventlistening to click on color button
 $('.btn').click(function() {
     userChosenColor = $(this).attr('id');
-    // console.log(`userChosenColor : ${userChosenColor}`)
+    
     userClickedPattern.push(userChosenColor);
 
     animatePress(userChosenColor);
     playSound(`${userChosenColor}`);
-
-    // console.log(`length : ${userClickedPattern.length-1}`)
-    // console.log(`randomChosenColor : ${randomChosenColor}`);
     
     checkAnswer(userClickedPattern.length-1);
-
-    
 });
 
+// Set function that check answer
 const checkAnswer = (currentLevel) => {
-    if (userChosenColor[currentLevel] === randomChosenColor[currentLevel]) {
-        console.log('pass');
+    if (gamePattern[currentLevel] === userClickedPattern[currentLevel]) {
         if (gamePattern.length === userClickedPattern.length) {
-            console.log('success');
+
+            // Delay 1 secound before increase another level
             setTimeout(() => {
                 nextSequence();
             }, 1000);
         };
     } else {
-        console.log('wrong');
-        return false;
-    }
+        // Play wrong sound 
+        playSound('wrong');
 
-    
+        // Add class 'game-over' temporarily when clicked wrong button
+        $(`body`).addClass('game-over');
+        setTimeout(() => {
+            $(`body`).removeClass('game-over')
+        }, 200);
+
+        // Show game over
+        $('#level-title').text(`Game Over`);
+        started = false;
+    }
 };
 
+// Show some hint
 $('img').click(() => {
-    console.log(gamePattern);
-    console.log(userClickedPattern);
+    console.log(`gamePattern : ${gamePattern}`);
+    console.log(`userClickedPattern : ${userClickedPattern}`);
 })
