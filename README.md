@@ -5,7 +5,7 @@
 <!-- Describe your project in brief -->
 Simon game is a mini **JavaScript** game, a practice project to learn how to use **jQuery** library instead of **DOM** manipulation to make it easier and faster to write code.
 
-[Simon Game Link](https://thasup.github.io/Simon-Game/)
+[Simon Game Link](https://thasup.github.io/simon-game/)
 
 # Table of contents
 
