@@ -1,4 +1,5 @@
 <!-- Add banner here -->
+![My_project](https://www.dropbox.com/s/ii3xcy5lak7642r/preview%20desktop%20simon.jpg?raw=1)
 
 # Simon Game
 
